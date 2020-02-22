@@ -1,0 +1,50 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+      
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v1.0.0
+      with:
+        version: 3.1.100
+     
+    - name: dotnet build
+      run: dotnet build dipper.sln -c Release
+      
+    - name: dotnet test
+      run: dotnet test dipper.sln -c Release --no-build
+
+    - name: dotnet pack
+      run: |
+        mkdir ./artifacts
+        dotnet pack dipper.sln -c Release --no-build -o ./artifacts
+
+    - name: setup nuget
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      uses: NuGet/setup-nuget@v1.0.2
+      with:
+        nuget-version: latest
+
+    - name: push packages (feedz.io)
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      run: |
+        for f in ./artifacts/*.nupkg
+        do
+          nuget push $f -source https://f.feedz.io/dipper/dipper/nuget/index.json -ApiKey ${{ secrets.FEEDZ_TOKEN }}
+          if [ $? -eq 0 ]
+          then
+            echo "successfully pushed $f"
+          else
+            echo "failed to push $f" >&2
+            exit 1
+          fi
+        done
+
+
