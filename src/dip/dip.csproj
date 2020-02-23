@@ -8,4 +8,12 @@
     <ToolCommandName>dip</ToolCommandName>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20104.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Dipper.IntegrationTest" />
+  </ItemGroup>
+
 </Project>
