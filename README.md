@@ -14,7 +14,7 @@ What dipper can do:
 
 ## Current Status
 
-![CI](https://github.com/rynowak/dipper/workflows/ci/badge.svg)
+![CI](https://github.com/rynowak/dipper/workflows/CI/badge.svg)
 
 Dipper will be a combination of [Opulence](https://github.com/rynowak/opulence) and [Micronetes](https://github.com/davidfowl/micronetes) into a single tool.
 
@@ -27,7 +27,7 @@ First, install the [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download/dot
 Then... run the following command with the version of the latest build. Unfortunately `dotnet tool install` requires you to specify the exact package version.
 
 ```sh
-dotnet tool install -g --add-source https://f.feedz.io/dipper/dipper/nuget/index.json --version "{version}" dip
+dotnet tool install dip -g --add-source https://f.feedz.io/dipper/dipper/nuget/index.json --version "{version}"
 
 dip --version
 > 0.1.27-alpha+feada8b0f8
